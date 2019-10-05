@@ -2,6 +2,11 @@ version: "3.2"
 
 services:
   backend: 
-    build: .  
+    image: open-reg-backend
     container_name: open-reg-backend
-    restart: always
+    environment:
+      MONGO_URL:
+      SECRET:
+      NODE_ENV:
+      CHULA_APP_ID:
+      CHULA_APP_SECRET:

@@ -2,23 +2,32 @@ version: "3.2"
 
 services:
   backend: 
+    image: node:8
+    container_name: open-reg-backend-dev
+    depends_on:
+      - db
+    restart: always
     volumes:
       - ./src:/app/src
-    command: ['yarn', 'start:dev']
+      - ./node_modules:/app/node_modules
+      - ./package.json:/app/package.json
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./tsconfig.build.json:/app/tsconfig.build.json
     ports:
       - 3000:3000
     environment: 
       MONGO_URL: mongodb://db/open-reg
       SECRET: secret
       NODE_ENV: development
-    depends_on:
-      - db
+    working_dir: /app
+    command: ['yarn', 'start:dev']
+
   db:
+    image: mongo:4.2
     container_name: open-reg-db
-    image: mongo:4
     restart: always
-    ports:
-      - 27017:27017
     volumes: 
       - ./volumes/mongodb:/data/db
       - ./volumes/mongodb_config:/data/configdb
+    ports:
+      - 27017:27017

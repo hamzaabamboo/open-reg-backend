@@ -2,10 +2,11 @@ version: "3.2"
 
 services:
   backend:  
+    image: open-reg-backend
+    container_name: open-reg-backend-stagging
+    build: .
     ports:
       - ${PORT}:${PORT}
     environment: 
-      MONGO_URL:
-      SECRET:
       PORT: 
       NODE_ENV: staging
