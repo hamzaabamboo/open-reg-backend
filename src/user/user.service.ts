@@ -13,7 +13,7 @@ export class UserService {
     createUserFromChulaSso(info: CreateUserFromChulaSsoDTO) {
         return this.userModel
             .findOneAndUpdate(
-                { info },
+                { 'info.chulaId': info.chulaId },
                 { $setOnInsert: { info } },
                 { new: true, upsert: true },
             )

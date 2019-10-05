@@ -18,6 +18,7 @@ export interface User extends Document {
         tel: string;
         emergencyTel: string;
         emergencyRelationship: string;
+        chulaId: string;
         [key: string]: string;
     };
 }
@@ -42,6 +43,7 @@ const UserInfoSchema = new Schema(
         tel: String,
         emergencyTel: String,
         emergencyRelationship: String,
+        chulaId: String,
     },
     { strict: false },
 );
