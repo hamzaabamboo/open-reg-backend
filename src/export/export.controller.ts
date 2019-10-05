@@ -36,6 +36,6 @@ export class ExportController {
                 HttpStatus.FORBIDDEN,
             );
         res.attachment(`${form.title}-${new Date()}.csv`);
-        return (await this.exportService.exportToCsv(form)).pipe(res);
+        return this.exportService.exportToCsv(form).pipe(res);
     }
 }
