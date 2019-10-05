@@ -13,6 +13,7 @@ export class UserService {
     createUserFromChulaSso(info: CreateUserFromChulaSsoDTO) {
         return this.userModel
             .findOneAndUpdate(
+                { info },
                 { $setOnInsert: { info } },
                 { new: true, upsert: true },
             )
@@ -34,6 +35,10 @@ export class UserService {
     }
 
     submitRegistrationForm(id: string, info: UserInfoDto) {
-        return this.userModel.findByIdAndUpdate(id, { info });
+        return this.userModel.findByIdAndUpdate(
+            id,
+            { $set: { info } },
+            { new: true },
+        );
     }
 }

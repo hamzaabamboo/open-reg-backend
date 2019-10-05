@@ -13,21 +13,28 @@ export class ResponseService {
         private readonly formService: FormService,
     ) {}
 
-    async submitResponse(response: SubmitResponseDTO, userId: string) {
-        const form = await this.formService.findById(response.form);
-        if (!form)
+    async submitResponse({ answers, form }: SubmitResponseDTO, userId: string) {
+        const checkForm = await this.formService.findById(form);
+        if (!checkForm)
             throw new HttpException('Invalid form id', HttpStatus.BAD_REQUEST);
-        const responseIsValid = validateResponse(
-            form.questions,
-            response.answers,
-        );
+        const responseIsValid = validateResponse(checkForm.questions, answers);
         if (!responseIsValid)
             throw new HttpException('Invalid response', HttpStatus.BAD_REQUEST);
-        const newResponse = new this.responseModel({
+        const query = {
             user: userId,
-            ...response,
-        });
-        return await newResponse.save();
+            form,
+        };
+        const newResponse = this.responseModel.findOneAndUpdate(
+            query,
+            {
+                $setOnInsert: query,
+                $set: {
+                    answers,
+                },
+            },
+            { new: true, upsert: true },
+        );
+        return await newResponse.exec();
     }
 
     findById(id: string) {
