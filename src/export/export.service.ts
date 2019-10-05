@@ -8,7 +8,7 @@ import { userInfoFields } from './export.user';
 export class ExportService {
     constructor(private readonly responseService: ResponseService) {}
 
-    async getResponseFields(form: Form) {
+    getResponseFields(form: Form) {
         return form.questions.map(({ key }) => ({
             label: key,
             value: `answers.${key}`,
@@ -16,8 +16,8 @@ export class ExportService {
         }));
     }
 
-    async exportToCsv(form: FormDocument) {
-        const responseFields = await this.getResponseFields(form);
+    exportToCsv(form: FormDocument) {
+        const responseFields = this.getResponseFields(form);
         const keys = [...userInfoFields, ...responseFields];
         const response = this.responseService.findAllResponse(form._id);
         return response.pipe(csvTransformStream(keys));
