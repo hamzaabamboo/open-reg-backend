@@ -3,7 +3,7 @@ version: "3.2"
 services:
   backend:  
     image: open-reg-backend
-    container_name: open-reg-backend-stagging
+    container_name: open-reg-backend-staging
     build: .
     ports:
       - ${PORT}:${PORT}
