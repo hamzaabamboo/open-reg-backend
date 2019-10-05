@@ -10,6 +10,7 @@ async function bootstrap() {
     const options = new DocumentBuilder()
         .setTitle('Open Reg API')
         .setVersion('1.0')
+        .setSchemes('https', 'http')
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);
