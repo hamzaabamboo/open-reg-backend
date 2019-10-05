@@ -89,11 +89,13 @@ export class SeederService {
                         );
                     }
                 }
+                const label = faker.commerce.productName();
                 const question: Question = {
                     type,
                     order,
                     group: i < Math.floor(this.ENTRIES / 2) ? 1 : 2,
-                    title: 'Q: ' + faker.commerce.productName(),
+                    label: 'Q: ' + label,
+                    key: label,
                     choices: choices.length > 0 ? choices : null,
                     required: Math.round(Math.random()) === 0,
                     description:

@@ -16,8 +16,9 @@ export interface Question {
     order: number;
     group: number;
     type: QuestionTypes;
-    title: string;
-    choices: string[];
+    label: string;
+    key: string;
+    choices?: string[];
     required: boolean;
     description?: string;
 }
@@ -54,7 +55,11 @@ export const QuestionSchema = new Schema({
         enum: QUESTION_TYPES,
         required: true,
     },
-    title: {
+    label: {
+        type: String,
+        required: true,
+    },
+    key: {
         type: String,
         required: true,
     },

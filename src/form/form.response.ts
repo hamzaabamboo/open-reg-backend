@@ -24,7 +24,9 @@ export class QuestionResponse implements Question {
     @ApiModelProperty()
     type: QuestionTypes;
     @ApiModelProperty()
-    title: string;
+    label: string;
+    @ApiModelProperty()
+    key: string;
     @ApiModelProperty({ type: [String] })
     choices: string[];
     @ApiModelProperty()

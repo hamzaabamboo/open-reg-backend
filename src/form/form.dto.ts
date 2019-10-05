@@ -20,7 +20,11 @@ export class QuestionDTO implements Question {
 
     @ApiModelProperty()
     @IsString()
-    title: string;
+    label: string;
+
+    @ApiModelProperty()
+    @IsString()
+    key: string;
 
     @ApiModelProperty()
     @IsInt()
