@@ -21,6 +21,6 @@ import { JwtModule } from '@nestjs/jwt';
         UserModule,
     ],
     controllers: [ChulaSsoController],
-    providers: [ChulaSsoService, ConfigService, HttpService, UserService],
+    providers: [ChulaSsoService, ConfigService],
 })
 export class ChulaSsoModule {}

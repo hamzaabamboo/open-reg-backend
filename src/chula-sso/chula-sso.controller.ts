@@ -22,6 +22,6 @@ export class ChulaSsoController {
         );
         const info = { chulaId: ouid, faculty: roles[0], role: roles[1] };
         const user = await this.userService.createUserFromChulaSso(info);
-        return this.jwtService.sign({ userId: user._id });
+        return { token: this.jwtService.sign({ id: user._id }) };
     }
 }
