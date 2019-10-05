@@ -11,12 +11,14 @@ import { Response } from 'express';
 import { FormService } from '../form/form.service';
 import { Authenticated } from '../auth/auth.decorator';
 import { UserId } from '../user/user.decorator';
+import { UserService } from '../user/user.service';
 
 @Controller('export')
 export class ExportController {
     constructor(
         private readonly exportService: ExportService,
         private readonly formService: FormService,
+        private readonly userService: UserService,
     ) {}
 
     @Authenticated()
@@ -27,7 +29,8 @@ export class ExportController {
         @UserId() userId: string,
     ) {
         const form = await this.formService.findById(formId);
-        if (!form.readPermissions.includes(userId))
+        const user = await this.userService.findById(userId);
+        if (!form.readPermissions.includes(user.info.chulaId))
             throw new HttpException(
                 'You are not authorized',
                 HttpStatus.FORBIDDEN,

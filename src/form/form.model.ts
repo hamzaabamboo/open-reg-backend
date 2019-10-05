@@ -41,11 +41,8 @@ export const FormSchema = new Schema({
         type: String,
         required: false,
     },
-    readPermissions: [
-        {
-            type: Schema.Types.ObjectId,
-            required: true,
-            ref: USER_MODEL,
-        },
-    ],
+    readPermissions: {
+        type: [String],
+        required: true,
+    },
 });
