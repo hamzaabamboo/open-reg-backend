@@ -8,7 +8,7 @@ import { UserId } from '../user/user.decorator';
 export class ResponseController {
     constructor(private readonly responseService: ResponseService) {}
     @Get(':id')
-    getForm(@Param('id') id: string) {
+    getResponse(@Param('id') id: string) {
         return this.responseService.findById(id);
     }
 
