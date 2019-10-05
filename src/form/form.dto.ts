@@ -88,4 +88,7 @@ export class CreateFormDTO implements Form {
     @ValidateNested({ each: true })
     @Type(() => QuestionDTO)
     questions: QuestionDTO[];
+
+    @ApiModelPropertyOptional()
+    readPermissions?: string[];
 }

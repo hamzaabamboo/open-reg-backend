@@ -2,6 +2,7 @@ import { Model, Document, Schema } from 'mongoose';
 import { Question, QuestionSchema } from './question.model';
 import { EVENT_MODEL } from '../event/event.model';
 import { FormGroup, FormGroupSchema } from './form-group.model';
+import { USER_MODEL } from '../user/user.model';
 
 export interface Form {
     eventId: string;
@@ -9,6 +10,7 @@ export interface Form {
     questions: Question[];
     title: string;
     description?: string;
+    readPermissions?: string[];
 }
 
 export interface FormDocument extends Document, Form {}
@@ -39,4 +41,11 @@ export const FormSchema = new Schema({
         type: String,
         required: false,
     },
+    readPermissions: [
+        {
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: USER_MODEL,
+        },
+    ],
 });
