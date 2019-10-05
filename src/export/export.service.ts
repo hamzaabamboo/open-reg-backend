@@ -1,28 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { ResponseService } from '../response/response.service';
-import { FormService } from '../form/form.service';
-import { userInfoKeys } from './export.user';
 import { csvTransformStream } from './export.csv';
+import { Form, FormDocument } from '../form/form.model';
+import { userInfoFields } from './export.user';
 
 @Injectable()
 export class ExportService {
-    constructor(
-        private readonly responseService: ResponseService,
-        private readonly formService: FormService,
-    ) {}
+    constructor(private readonly responseService: ResponseService) {}
 
-    async getResponseKeys(formId: string) {
-        const form = await this.formService.findById(formId);
+    async getResponseFields(form: Form) {
         return form.questions.map(({ key }) => ({
             label: key,
             value: `answers.${key}`,
             default: '-',
         }));
     }
-    async exportToCsv(formId: string) {
-        const responseKeys = await this.getResponseKeys(formId);
-        const keys = [...userInfoKeys, ...responseKeys];
-        const response = this.responseService.findAllResponse(formId);
+
+    async exportToCsv(form: FormDocument) {
+        const responseFields = await this.getResponseFields(form);
+        const keys = [...userInfoFields, ...responseFields];
+        const response = this.responseService.findAllResponse(form._id);
         return response.pipe(csvTransformStream(keys));
     }
 }

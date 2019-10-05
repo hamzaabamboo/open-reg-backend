@@ -1,6 +1,6 @@
 const uKey = (key: string) => `user.info.${key}`;
 
-export const userInfoKeys = [
+export const userInfoFields = [
     {
         label: 'คำนำหน้าชื่อ (ภาษาไทย)',
         value: uKey('title'),
