@@ -1,15 +1,15 @@
-import { IsString, IsEmail, IsAlpha, IsNumberString } from 'class-validator';
+import { IsString, IsEmail, IsNumberString } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class CreateUserDTO {
-    @ApiModelProperty()
-    @IsString()
-    username: string;
+// export class CreateUserDTO {
+//     @ApiModelProperty()
+//     @IsString()
+//     username: string;
 
-    @ApiModelProperty()
-    @IsString()
-    password: string;
-}
+//     @ApiModelProperty()
+//     @IsString()
+//     password: string;
+// }
 
 export class CreateUserFromChulaSsoDTO {
     @IsString()
