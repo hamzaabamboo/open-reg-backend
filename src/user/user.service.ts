@@ -34,10 +34,14 @@ export class UserService {
         return { ...registrationForm, questions };
     }
 
-    submitRegistrationForm(id: string, info: UserInfoDto) {
+    async submitRegistrationForm(id: string, userInfo: UserInfoDto) {
+        const user = await this.findById(id);
+        // raw mongoose document destructuring causes bugs
+        const oldInfo = JSON.parse(JSON.stringify(user.info));
+        const newInfo = { ...oldInfo, ...userInfo };
         return this.userModel.findByIdAndUpdate(
             id,
-            { $set: { info } },
+            { $set: { info: newInfo } },
             { new: true },
         );
     }
