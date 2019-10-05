@@ -9,6 +9,7 @@ import { EventModule } from './event/event.module';
 import { ResponseModule } from './response/response.module';
 import { FormModule } from './form/form.module';
 import { ChulaSsoModule } from './chula-sso/chula-sso.module';
+import { ExportModule } from './export/export.module';
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { ChulaSsoModule } from './chula-sso/chula-sso.module';
         ResponseModule,
         FormModule,
         ChulaSsoModule,
+        ExportModule,
     ],
     controllers: [AppController],
     providers: [],
