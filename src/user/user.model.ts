@@ -19,6 +19,8 @@ export interface User extends Document {
         emergencyTel: string;
         emergencyRelationship: string;
         chulaId: string;
+        faculty: string;
+        year: string;
         [key: string]: string;
     };
 }
@@ -44,6 +46,8 @@ const UserInfoSchema = new Schema(
         line: String,
         facebook: String,
         chulaId: String,
+        faculty: String,
+        year: String,
     },
     { strict: false },
 );
