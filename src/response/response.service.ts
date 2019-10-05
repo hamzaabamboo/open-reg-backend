@@ -40,4 +40,12 @@ export class ResponseService {
     findById(id: string) {
         return this.responseModel.findById(id).exec();
     }
+
+    findAllResponse(formId: string) {
+        return this.responseModel
+            .find({ form: formId })
+            .populate('user', 'info')
+            .select('user answers')
+            .cursor();
+    }
 }
