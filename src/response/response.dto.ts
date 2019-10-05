@@ -1,16 +1,14 @@
-import { IsString, IsMongoId } from 'class-validator';
+import { IsMongoId, IsNotEmpty } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class CreateResponseDTO {
+export class SubmitResponseDTO {
     @ApiModelProperty()
     @IsMongoId()
-    formId: string;
+    form: string;
 
     @ApiModelProperty()
-    @IsMongoId()
-    userId: string;
-
-    @ApiModelProperty()
-    @IsString({ each: true })
-    answers: string[];
+    @IsNotEmpty()
+    answers: {
+        [key: string]: string;
+    };
 }

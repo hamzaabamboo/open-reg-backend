@@ -13,6 +13,7 @@ import { QUESTION_MODEL, QuestionSchema } from './question.model';
         ]),
     ],
     providers: [FormService],
+    exports: [FormService],
     controllers: [FormController],
 })
 export class FormModule {}
