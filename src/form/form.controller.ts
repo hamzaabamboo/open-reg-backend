@@ -1,7 +1,15 @@
-import { Controller, Get, Param, Post, Body, UseGuards } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Param,
+    Post,
+    Body,
+    UseGuards,
+    HttpException,
+    HttpStatus,
+} from '@nestjs/common';
 import { FormService } from './form.service';
 import { CreateFormDTO } from './form.dto';
-import { DebugGuard } from '../debug.guard';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { FormResponse } from './form.response';
 
@@ -9,7 +17,6 @@ import { FormResponse } from './form.response';
 export class FormController {
     constructor(private readonly formService: FormService) {}
 
-    @UseGuards(DebugGuard)
     @Get('all')
     getAll() {
         return this.formService.findAll();
@@ -17,8 +24,11 @@ export class FormController {
 
     @ApiOkResponse({ type: FormResponse })
     @Get(':id')
-    getForm(@Param('id') id: string) {
-        return this.formService.findById(id);
+    async getForm(@Param('id') id: string) {
+        const form = await this.formService.findById(id);
+        if (!form)
+            throw new HttpException('form not found', HttpStatus.NOT_FOUND);
+        return form;
     }
 
     @ApiOkResponse({ type: FormResponse })
