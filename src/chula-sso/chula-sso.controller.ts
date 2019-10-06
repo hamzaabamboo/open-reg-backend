@@ -3,6 +3,8 @@ import { ChulaSsoService } from './chula-sso.service';
 import { UserService } from '../user/user.service';
 import { ChulaSsoSuccessResponse } from './chula-sso.dto';
 import { JwtService } from '@nestjs/jwt';
+import { ApiOkResponse } from '@nestjs/swagger';
+import { ValidateTicketResponse } from './chula-sso.response';
 
 @Controller('chula-sso')
 export class ChulaSsoController {
@@ -12,6 +14,7 @@ export class ChulaSsoController {
         private readonly userService: UserService,
     ) {}
 
+    @ApiOkResponse({ type: ValidateTicketResponse })
     @Get('/validate-ticket')
     async validateTicket(@Query('ticket') ticket: string) {
         const data: ChulaSsoSuccessResponse = await this.chulaSsoService.validateTicket(
