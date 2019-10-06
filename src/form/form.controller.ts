@@ -17,6 +17,7 @@ import { FormResponse } from './form.response';
 export class FormController {
     constructor(private readonly formService: FormService) {}
 
+    @ApiOkResponse({ type: [FormResponse] })
     @Get('all')
     getAll() {
         return this.formService.findAll();
