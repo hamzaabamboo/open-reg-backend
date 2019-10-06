@@ -4,6 +4,7 @@ import {
     ChulaSsoSuccessResponse,
     ChulaSsoFailedResponse,
 } from './chula-sso.dto';
+import { parseStudentId } from './chula-sso.utils';
 
 @Injectable()
 export class ChulaSsoService {
@@ -29,5 +30,24 @@ export class ChulaSsoService {
             throw new BadRequestException(data);
         }
         return data as ChulaSsoSuccessResponse;
+    }
+
+    parseStudentInfo(data: ChulaSsoSuccessResponse) {
+        const { chulaId, year, faculty } = parseStudentId(data.ouid);
+        const {
+            firstname: firstNameEn,
+            lastname: lastNameEn,
+            firstnameth: firstName,
+            lastnameth: lastName,
+        } = data;
+        return {
+            chulaId,
+            year,
+            faculty,
+            firstNameEn,
+            lastNameEn,
+            firstName,
+            lastName,
+        };
     }
 }

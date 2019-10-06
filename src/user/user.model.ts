@@ -20,8 +20,8 @@ export interface User extends Document {
         emergencyRelationship: string;
         chulaId: string;
         faculty: string;
-        year: string;
-        [key: string]: string;
+        year: number;
+        [key: string]: any;
     };
 }
 

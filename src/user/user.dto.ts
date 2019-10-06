@@ -17,9 +17,20 @@ export class CreateUserFromChulaSsoDTO {
 
     @IsString()
     faculty: string;
+    @IsString()
+    year: number;
 
     @IsString()
-    role: string;
+    firstName: string;
+
+    @IsString()
+    firstNameEn: string;
+
+    @IsString()
+    lastName: string;
+
+    @IsString()
+    lastNameEn: string;
 }
 
 export class UserInfoDto {

@@ -63,7 +63,7 @@ export const registrationForm: Form = {
             group: 1,
             type: QuestionTypes.TEXT,
             label: 'ชื่อ (ภาษาอังกฤษ)',
-            key: 'nameEn',
+            key: 'firstNameEn',
             required: true,
         },
         {

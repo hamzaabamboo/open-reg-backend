@@ -14,13 +14,10 @@ export class ChulaSsoController {
 
     @Get('/validate-ticket')
     async validateTicket(@Query('ticket') ticket: string) {
-        const {
-            ouid,
-            roles,
-        }: ChulaSsoSuccessResponse = await this.chulaSsoService.validateTicket(
+        const data: ChulaSsoSuccessResponse = await this.chulaSsoService.validateTicket(
             ticket,
         );
-        const info = { chulaId: ouid, faculty: roles[0], role: roles[1] };
+        const info = this.chulaSsoService.parseStudentInfo(data);
         const user = await this.userService.createUserFromChulaSso(info);
         return { token: this.jwtService.sign({ id: user._id }) };
     }

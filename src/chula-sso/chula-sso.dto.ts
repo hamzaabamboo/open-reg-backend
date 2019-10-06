@@ -5,6 +5,10 @@ export interface ChulaSsoSuccessResponse {
     email: string;
     roles: string[];
     ouid: string;
+    firstname: string;
+    lastname: string;
+    firstnameth: string;
+    lastnameth: string;
 }
 
 export interface ChulaSsoFailedResponse {
