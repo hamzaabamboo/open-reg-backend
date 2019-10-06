@@ -3,6 +3,8 @@ import { UserService } from './user.service';
 import { UserId } from './user.decorator';
 import { Authenticated } from '../auth/auth.decorator';
 import { UserInfoDto } from './user.dto';
+import { ApiOkResponse } from '@nestjs/swagger';
+import { FormResponse } from '../form/form.response';
 
 @Controller('user')
 export class UserController {
@@ -14,6 +16,7 @@ export class UserController {
         return this.userService.findById(userId);
     }
 
+    @ApiOkResponse({ type: FormResponse })
     @Authenticated()
     @Get('form')
     getRegistrationForm(@UserId() userId: string) {

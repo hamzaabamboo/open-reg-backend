@@ -21,6 +21,7 @@ export class FormController {
         return this.formService.findById(id);
     }
 
+    @ApiOkResponse({ type: FormResponse })
     @Post()
     createForm(@Body() createForm: CreateFormDTO) {
         return this.formService.createForm(createForm);
