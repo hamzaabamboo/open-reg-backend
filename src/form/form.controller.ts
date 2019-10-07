@@ -12,6 +12,8 @@ import { FormService } from './form.service';
 import { CreateFormDTO } from './form.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { FormResponse } from './form.response';
+import { Authenticated } from '../auth/auth.decorator';
+import { UserId } from '../user/user.decorator';
 
 @Controller('form')
 export class FormController {
@@ -23,12 +25,11 @@ export class FormController {
         return this.formService.findAll();
     }
 
+    @Authenticated()
     @ApiOkResponse({ type: FormResponse })
     @Get(':id')
-    async getForm(@Param('id') id: string) {
-        const form = await this.formService.findById(id);
-        if (!form)
-            throw new HttpException('form not found', HttpStatus.NOT_FOUND);
+    async getForm(@Param('id') id: string, @UserId() userId: string) {
+        const form = await this.formService.getForm(id, userId);
         return form;
     }
 
