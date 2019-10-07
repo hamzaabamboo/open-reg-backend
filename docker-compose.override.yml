@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   backend: 
-    image: node:8
+    image: node:12
     container_name: open-reg-backend-dev
     depends_on:
       - db
