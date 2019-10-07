@@ -10,6 +10,7 @@ services:
 
       - 'traefik.http.routers.api.entrypoints=websecure'
       - 'traefik.http.routers.api.rule=Host(`traefik.openreg.app`)'
+      - 'traefik.http.routers.api.tls.certresolver=myhttpchallenge'
       - 'traefik.http.routers.api.service=api@internal'
     command:
       # - '--log.level=DEBUG'
