@@ -1,5 +1,5 @@
 import { Question, QuestionTypes } from './question.model';
-import { prefillAnswer } from './form.utils';
+import { prefillAnswer, hasChoices } from './form.utils';
 
 describe(' prefill answer', () => {
     const questions: Question[] = [
@@ -70,5 +70,19 @@ describe(' prefill answer', () => {
             },
         ];
         expect(prefillAnswer(questions, data)).toEqual(result);
+    });
+});
+
+describe('hasChoices', () => {
+    const fake = (type: QuestionTypes): Question => ({ type } as any);
+    it('should be true', () => {
+        expect(hasChoices(fake(QuestionTypes.CHECKBOX))).toBe(true);
+        expect(hasChoices(fake(QuestionTypes.DROPDOWN))).toBe(true);
+        expect(hasChoices(fake(QuestionTypes.RADIO))).toBe(true);
+    });
+    it('should be false', () => {
+        expect(hasChoices(fake(QuestionTypes.TEXT))).toBe(false);
+        expect(hasChoices(fake(QuestionTypes.EMAIL))).toBe(false);
+        expect(hasChoices(fake(QuestionTypes.PHONE))).toBe(false);
     });
 });

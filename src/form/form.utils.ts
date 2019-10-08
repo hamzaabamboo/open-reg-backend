@@ -1,4 +1,4 @@
-import { Question } from './question.model';
+import { Question, QuestionTypes } from './question.model';
 export const prefillAnswer = (
     questions: Question[],
     answers: { [key: string]: string },
@@ -11,3 +11,10 @@ export const prefillAnswer = (
             ...q,
         };
     });
+
+export const hasChoices = (question: Question) =>
+    [
+        QuestionTypes.CHECKBOX,
+        QuestionTypes.DROPDOWN,
+        QuestionTypes.RADIO,
+    ].includes(question.type);
