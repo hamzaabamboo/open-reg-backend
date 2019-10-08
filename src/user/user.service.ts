@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { USER_MODEL, UserModel } from './user.model';
+import { USER_MODEL, UserModel, User } from './user.model';
 import { CreateUserFromChulaSsoDTO, UserInfoDto } from './user.dto';
 import { registrationForm } from './user.form';
 import { prefillAnswer } from '../form/form.utils';
@@ -24,12 +24,8 @@ export class UserService {
         const user = await this.userModel.findById(id).exec();
         if (!user)
             throw new HttpException('Invalid user id', HttpStatus.NOT_FOUND);
-        return user.toObject();
+        return user.toObject() as User;
     }
-
-    // findByUsername(username: string) {
-    //     return this.userModel.findOne({ username }).exec();
-    // }
 
     async getRegistrationForm(id: string) {
         const { info } = await this.findById(id);
@@ -39,8 +35,7 @@ export class UserService {
 
     async submitRegistrationForm(id: string, userInfo: UserInfoDto) {
         const user = await this.findById(id);
-        // raw mongoose document destructuring causes bugs
-        const oldInfo = JSON.parse(JSON.stringify(user.info));
+        const oldInfo = user.info;
         const newInfo = { ...oldInfo, ...userInfo };
         return this.userModel.findByIdAndUpdate(
             id,

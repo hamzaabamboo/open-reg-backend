@@ -1,5 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { FORM_MODEL, FormModel } from './form.model';
+import { FORM_MODEL, FormModel, FormDocument } from './form.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateFormDTO } from './form.dto';
 import { RESPONSE_MODEL, ResponseModel } from '../response/response.model';
@@ -23,9 +23,10 @@ export class FormService {
     }
 
     async findById(id: string) {
-        const f = await this.formModel.findById(id).exec();
-        // TODO find a better solution
-        return JSON.parse(JSON.stringify(f));
+        const form = await this.formModel.findById(id).exec();
+        if (!form)
+            throw new HttpException('ivalid form id', HttpStatus.NOT_FOUND);
+        return form.toObject() as FormDocument;
     }
 
     async findOldResponse(formId: string, userId: string) {
@@ -37,8 +38,7 @@ export class FormService {
 
     async getForm(formId: string, userId: string) {
         const form = await this.findById(formId);
-        if (!form)
-            throw new HttpException('ivalid form id', HttpStatus.NOT_FOUND);
+
         const oldResponse = await this.findOldResponse(formId, userId);
         const questions = prefillAnswer(form.questions, oldResponse);
         return Object.assign({}, form, { questions });
