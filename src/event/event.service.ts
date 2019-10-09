@@ -13,7 +13,7 @@ export class EventService {
         return await newEvent.save();
     }
 
-    editEvent(event: Partial<Event>, id: string) {
+    editEvent(id: string, event: Partial<Event>) {
         return this.eventModel.findByIdAndUpdate(id, event);
     }
 

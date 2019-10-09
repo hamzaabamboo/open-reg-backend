@@ -21,7 +21,7 @@ export class EventController {
 
     @Patch(':id')
     editEvent(@Body() event: EditEventDTO, @Param('id') id: string) {
-        return this.eventService.editEvent(event, id);
+        return this.eventService.editEvent(id, event);
     }
 
     @Get(':id')
