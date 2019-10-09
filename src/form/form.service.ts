@@ -1,9 +1,10 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { FORM_MODEL, FormModel, FormDocument } from './form.model';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateFormDTO } from './form.dto';
+import { CreateFormDTO, EditFormDTO } from './form.dto';
 import { RESPONSE_MODEL, ResponseModel } from '../response/response.model';
 import { prefillAnswer } from './form.utils';
+import { EditEventDTO } from '../event/event.dto';
 @Injectable()
 export class FormService {
     constructor(
@@ -25,7 +26,7 @@ export class FormService {
     async findById(id: string) {
         const form = await this.formModel.findById(id).exec();
         if (!form)
-            throw new HttpException('ivalid form id', HttpStatus.NOT_FOUND);
+            throw new HttpException('invalid form id', HttpStatus.NOT_FOUND);
         return form.toObject() as FormDocument;
     }
 
@@ -33,14 +34,21 @@ export class FormService {
         const response = await this.responseModel
             .findOne({ form: formId, user: userId })
             .exec();
-        return Object.fromEntries(response ? response.answers : new Map());
+        return response ? Object.fromEntries(response.answers) : {};
     }
 
     async getForm(formId: string, userId: string) {
         const form = await this.findById(formId);
-
         const oldResponse = await this.findOldResponse(formId, userId);
         const questions = prefillAnswer(form.questions, oldResponse);
         return Object.assign({}, form, { questions });
+    }
+
+    async editForm(formId: string, input: EditFormDTO) {
+        return this.formModel.findByIdAndUpdate(
+            formId,
+            { $set: input },
+            { new: true },
+        );
     }
 }

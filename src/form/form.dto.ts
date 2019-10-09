@@ -92,3 +92,37 @@ export class CreateFormDTO implements Form {
     @ApiModelPropertyOptional()
     readPermissions?: string[];
 }
+
+export class EditFormDTO implements Partial<Form> {
+    @ApiModelProperty()
+    @IsOptional()
+    @IsMongoId()
+    eventId?: string;
+
+    @ApiModelProperty()
+    @IsOptional()
+    @IsString()
+    title?: string;
+
+    @ApiModelProperty({ type: [FormGroupDTO] })
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => FormGroupDTO)
+    groups?: FormGroupDTO[];
+
+    @ApiModelProperty()
+    @IsOptional()
+    @IsString()
+    description?: string;
+
+    @ApiModelProperty({ type: [QuestionDTO] })
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => QuestionDTO)
+    questions?: QuestionDTO[];
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    @ValidateNested({ each: true })
+    readPermissions?: string[];
+}

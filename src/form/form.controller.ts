@@ -7,13 +7,15 @@ import {
     UseGuards,
     HttpException,
     HttpStatus,
+    Patch,
 } from '@nestjs/common';
 import { FormService } from './form.service';
-import { CreateFormDTO } from './form.dto';
+import { CreateFormDTO, EditFormDTO } from './form.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { FormResponse } from './form.response';
 import { Authenticated } from '../auth/auth.decorator';
 import { UserId } from '../user/user.decorator';
+import { EditEventDTO } from '../event/event.dto';
 
 @Controller('form')
 export class FormController {
@@ -37,5 +39,11 @@ export class FormController {
     @Post()
     createForm(@Body() createForm: CreateFormDTO) {
         return this.formService.createForm(createForm);
+    }
+
+    @ApiOkResponse({ type: FormResponse })
+    @Patch(':id')
+    editForm(@Body() form: EditFormDTO, @Param('id') id: string) {
+        return this.formService.editForm(id, form);
     }
 }
