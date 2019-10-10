@@ -32,6 +32,16 @@ services:
       - './letsencrypt:/letsencrypt'
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
 
+  frontend:
+    image: open-reg-frontend
+    container_name: open-reg-frontend-prod
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.frontend.rule=Host(`fullmoon.openreg.app`)'
+      - 'traefik.http.routers.frontend.entrypoints=websecure'
+      - 'traefik.http.routers.frontend.tls.certresolver=myhttpchallenge'
+      - 'traefik.http.services.frontend.loadbalancer.server.port=4200'
+
   backend:
     container_name: open-reg-backend-prod
     build: .
