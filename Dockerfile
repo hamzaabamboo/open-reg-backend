@@ -1,4 +1,4 @@
-FROM node:10 as builder
+FROM node:12 as builder
 WORKDIR /app
 
 # Install dependencies
@@ -10,7 +10,7 @@ COPY ./tsconfig.json ./tsconfig.build.json ./
 COPY ./src ./src
 RUN yarn run build
 
-FROM node:10-alpine
+FROM node:12-alpine
 WORKDIR /app
 
 COPY --from=builder /app/package.json /app/yarn.lock ./
