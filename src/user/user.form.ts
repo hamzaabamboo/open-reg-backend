@@ -2,7 +2,7 @@ import { Form } from '../form/form.model';
 import { QuestionTypes } from '../form/question.model';
 export const registrationForm: Form = {
     eventId: '',
-    title: 'User Registration',
+    title: 'ผู้ใช้',
     groups: [
         {
             title: 'ข้อมูลส่วนตัว',
