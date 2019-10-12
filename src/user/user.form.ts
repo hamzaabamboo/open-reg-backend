@@ -1,5 +1,8 @@
 import { Form } from '../form/form.model';
 import { QuestionTypes } from '../form/question.model';
+export const TitleChoices = ['นาย', 'นางสาว', 'นาง'];
+export const TitleEnChoices = ['Mr.', 'Ms.', 'Mrs.'];
+
 export const registrationForm: Form = {
     eventId: '',
     title: 'ผู้ใช้',
@@ -22,7 +25,7 @@ export const registrationForm: Form = {
             type: QuestionTypes.DROPDOWN,
             label: 'คำนำหน้า (ภาษาไทย)',
             key: 'title',
-            choices: ['นาย', 'นางสาว', 'นาง'],
+            choices: TitleChoices,
             required: true,
         },
         {
@@ -55,7 +58,7 @@ export const registrationForm: Form = {
             type: QuestionTypes.DROPDOWN,
             label: 'คำนำหน้า (ภาษาอังกฤษ)',
             key: 'titleEn',
-            choices: ['Mr.', 'Ms.', 'Mrs.'],
+            choices: TitleEnChoices,
             required: true,
         },
         {

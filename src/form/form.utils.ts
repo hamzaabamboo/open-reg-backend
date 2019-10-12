@@ -1,7 +1,7 @@
 import { Question, QuestionTypes } from './question.model';
 export const prefillAnswer = (
     questions: Question[],
-    answers: { [key: string]: string },
+    answers: { [key: string]: any },
 ) =>
     questions.map(({ key, ...q }) => {
         const value = answers[key] || '';

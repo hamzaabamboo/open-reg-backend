@@ -2,8 +2,8 @@ import { Question } from '../form/question.model';
 import { hasChoices } from '../form/form.utils';
 import { Transform } from 'stream';
 import { Response } from './response.model';
-import { registrationForm } from '../user/user.form';
 import { User } from '../user/user.model';
+import { parseUserInfo } from '../user/user.util';
 
 function isNumeric(value: string) {
     return /^\d+$/.test(value);
@@ -50,13 +50,9 @@ export const responseTransformStream = (questions: Question[]) => {
         transform: (data: Response, _, done) => {
             const res = data.toObject() as Response;
             const oldAnswers = Object.fromEntries(res.answers);
-            const userInfo = parseResponse(
-                registrationForm.questions,
-                ((res.user as any) as User).info,
-            );
+            const userInfo = parseUserInfo(((res.user as any) as User).info);
             const answers = parseResponse(questions, oldAnswers);
             const result = { ...res, user: { info: userInfo }, answers };
-            console.log(result);
             done(null, result);
         },
     });

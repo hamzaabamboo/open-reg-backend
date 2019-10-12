@@ -1,28 +1,28 @@
 import { Model, Document, Schema } from 'mongoose';
 
+export interface UserInfo {
+    email: string;
+    line: string;
+    facebook: string;
+    firstName: string;
+    firstNameEn: string;
+    lastName: string;
+    lastNameEn: string;
+    nickName: string;
+    nickNameEn: string;
+    title: string;
+    titleEn: string;
+    tel: string;
+    emergencyTel: string;
+    emergencyRelationship: string;
+    chulaId: string;
+    faculty: string;
+    year: number;
+}
 export interface User extends Document {
     // username: string;
     // password: string;
-    info: {
-        email: string;
-        line: string;
-        facebook: string;
-        firstName: string;
-        firstNameEn: string;
-        lastName: string;
-        lastNameEn: string;
-        nickName: string;
-        nickNameEn: string;
-        title: string;
-        titleEn: string;
-        tel: string;
-        emergencyTel: string;
-        emergencyRelationship: string;
-        chulaId: string;
-        faculty: string;
-        year: number;
-        [key: string]: any;
-    };
+    info: UserInfo;
 }
 
 export type UserModel = Model<User>;
