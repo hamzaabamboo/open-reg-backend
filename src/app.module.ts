@@ -10,6 +10,7 @@ import { ResponseModule } from './response/response.module';
 import { FormModule } from './form/form.module';
 import { ChulaSsoModule } from './chula-sso/chula-sso.module';
 import { ExportModule } from './export/export.module';
+import { FileModule } from './file/file.module';
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { ExportModule } from './export/export.module';
         FormModule,
         ChulaSsoModule,
         ExportModule,
+        FileModule,
     ],
     controllers: [AppController],
     providers: [],
