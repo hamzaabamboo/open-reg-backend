@@ -2,6 +2,7 @@ import { Injectable, Req, Res } from '@nestjs/common';
 import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
+import * as path from 'path';
 
 const S3: AWS.S3 = new AWS.S3();
 
@@ -18,7 +19,7 @@ AWS.config.update({
 // TO-DO: REFACTOR
 @Injectable()
 export class FileService {
-    async fileupload(@Req() req, @Res() res) {
+    async fileUpload(@Req() req, @Res() res) {
         try {
             this.upload(req, res, function(error) {
                 if (error) {
@@ -40,12 +41,21 @@ export class FileService {
             s3: S3,
             bucket: AWS_S3_BUCKET_NAME,
             acl: 'public-read',
+            fileFilter: function(req, file, callback) {
+                const ext = path.extname(file.originalname).toLowerCase();
+                const allowed = ['.png', '.jpg', '.gif', '.jpeg'];
+                if (!allowed.includes(ext)) {
+                    return callback(new Error('Only images are allowed!'));
+                }
+                callback(null, true);
+            },
             key: function(request, file, cb) {
+                // TO-DO: Attach `overrideFileName` to `request` parameter
                 const fileName = `${Date.now().toString()} - ${
-                    file.originalName
+                    file.originalname
                 }`;
                 cb(null, fileName);
             },
         }),
-    }).array('upload', 1);
+    }).array('upload');
 }
