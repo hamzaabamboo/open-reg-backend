@@ -3,22 +3,21 @@ import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import * as path from 'path';
-
-const S3: AWS.S3 = new AWS.S3();
-
-// Constants
-const AWS_ACCESS_KEY_ID = '';
-const AWS_SECRET_ACCESS_KEY = '';
-const AWS_S3_BUCKET_NAME = '';
-
-AWS.config.update({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-});
+import { ConfigService } from '../config/config.service';
 
 // TO-DO: REFACTOR
 @Injectable()
 export class FileService {
+    S3: AWS.S3 = new AWS.S3();
+
+    constructor(private readonly configService: ConfigService) {
+        console.log('[FileService]', 'constructor');
+        AWS.config.update({
+            accessKeyId: configService.aws.AWS_ACCESS_KEY_ID,
+            secretAccessKey: configService.aws.AWS_SECRET_ACCESS_KEY,
+        });
+    }
+
     async fileUpload(@Req() req, @Res() res) {
         try {
             this.upload(req, res, function(error) {
@@ -28,7 +27,7 @@ export class FileService {
                         .status(404)
                         .json(`Failed to upload file: ${error}`);
                 }
-                return res.status(201).json(req.files[0].location);
+                return res.status(201).json(req.files.location);
             });
         } catch (error) {
             // console.log(error)
@@ -38,8 +37,8 @@ export class FileService {
 
     upload = multer({
         storage: multerS3({
-            s3: S3,
-            bucket: AWS_S3_BUCKET_NAME,
+            s3: this.S3,
+            bucket: this.configService.aws.AWS_S3_BUCKET_NAME,
             acl: 'public-read',
             fileFilter: function(req, file, callback) {
                 const ext = path.extname(file.originalname).toLowerCase();
