@@ -5,7 +5,7 @@ import { USER_MODEL } from '../user/user.model';
 export interface Response extends Document {
     form: string;
     user: string;
-    answers: Map<string,string>;
+    answers: Map<string, string>;
 }
 
 export type ResponseModel = Model<Response>;
