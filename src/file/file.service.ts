@@ -16,6 +16,15 @@ export class FileService {
             accessKeyId: configService.awsAccessKeyId,
             secretAccessKey: configService.awsSecretAccessKey,
         });
+
+        var bucketParams = { Bucket: configService.awsS3BucketName };
+        this.S3.getBucketAcl(bucketParams, function(err, data) {
+            if (err) {
+                console.log('S3:getBucketAcl', err);
+            } else if (data) {
+                console.log('S3:getBucketAcl', data.Grants);
+            }
+        });
     }
 
     async fileUpload(@Req() req, @Res() res) {
@@ -24,10 +33,11 @@ export class FileService {
 
     upload(req, res, callback = null) {
         try {
-            this.upload(req, res, function(error) {
+            this._upload(req, res, function(error) {
                 if (error) {
                     console.log(error);
                 }
+                console.log('req.files', req.files);
                 return callback
                     ? callback(req.files.location)
                     : req.files.location;
@@ -52,6 +62,8 @@ export class FileService {
                 callback(null, true);
             },
             key: function(request, file, cb) {
+                console.log('request', request);
+                console.log('file', file);
                 // TO-DO: Attach `overrideFileName` to `request` parameter
                 const fileName = `${Date.now().toString()} - ${
                     file.originalname
