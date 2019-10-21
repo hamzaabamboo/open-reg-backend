@@ -13,32 +13,35 @@ export class FileService {
     constructor(private readonly configService: ConfigService) {
         console.log('[FileService]', 'constructor');
         AWS.config.update({
-            accessKeyId: configService.aws.AWS_ACCESS_KEY_ID,
-            secretAccessKey: configService.aws.AWS_SECRET_ACCESS_KEY,
+            accessKeyId: configService.awsAccessKeyId,
+            secretAccessKey: configService.awsSecretAccessKey,
         });
     }
 
     async fileUpload(@Req() req, @Res() res) {
+        this.upload(req, res, locations => res.status(201).json(locations));
+    }
+
+    upload(req, res, callback = null) {
         try {
             this.upload(req, res, function(error) {
                 if (error) {
-                    // console.log(error);
-                    return res
-                        .status(404)
-                        .json(`Failed to upload file: ${error}`);
+                    console.log(error);
                 }
-                return res.status(201).json(req.files.location);
+                return callback
+                    ? callback(req.files.location)
+                    : req.files.location;
             });
         } catch (error) {
-            // console.log(error)
-            return res.status(500).json(`Failed to upload file: ${error}`);
+            console.log(error);
+            // return res.status(500).json(`Failed to upload file: ${error}`);
         }
     }
 
-    upload = multer({
+    _upload = multer({
         storage: multerS3({
             s3: this.S3,
-            bucket: this.configService.aws.AWS_S3_BUCKET_NAME,
+            bucket: this.configService.awsS3BucketName,
             acl: 'public-read',
             fileFilter: function(req, file, callback) {
                 const ext = path.extname(file.originalname).toLowerCase();
