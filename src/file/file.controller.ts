@@ -6,12 +6,6 @@ export class FileController {
     constructor(private readonly fileService: FileService) {}
     @Post('upload')
     async create(@Req() request, @Res() response) {
-        try {
-            await this.fileService.fileUpload(request, response);
-        } catch (error) {
-            return response
-                .status(500)
-                .json(`Failed to upload image file: ${error.message}`);
-        }
+        return this.fileService.fileUpload(request, response);
     }
 }
