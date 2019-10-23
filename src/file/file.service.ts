@@ -7,6 +7,7 @@ import { ConfigService } from '../config/config.service';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import * as path from 'path';
+import { createHash } from 'crypto';
 
 @Injectable()
 export class FileService implements MulterOptionsFactory {
@@ -23,7 +24,7 @@ export class FileService implements MulterOptionsFactory {
 
     createMulterOptions(): MulterModuleOptions {
         return {
-            fileFilter: function(req, file, next) {
+            fileFilter: (req, file, next) => {
                 const ext = path.extname(file.originalname).toLowerCase();
                 const allowed = ['.png', '.jpg', '.gif', '.jpeg'];
                 if (!allowed.includes(ext)) {
@@ -36,9 +37,15 @@ export class FileService implements MulterOptionsFactory {
                 s3: this.S3,
                 bucket: this.configService.awsS3BucketName,
                 acl: 'public-read',
-                key: function(request, file, next) {
-                    // prettier-ignore
-                    const fileName = Date.now().toString() + ' - ' + file.originalname;
+                key: (request, file, next) => {
+                    const override = request.body.override || 'open-reg';
+                    const orig = createHash('md5')
+                        .update(file.originalname)
+                        .digest('hex');
+                    const now = Date.now().toString();
+
+                    const fileName = [override, orig, now].join('-');
+
                     next(null, fileName);
                 },
             }),
