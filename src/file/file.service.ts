@@ -19,7 +19,7 @@ export class FileService implements MulterOptionsFactory {
             secretAccessKey: configService.awsSecretAccessKey,
         });
 
-        this.debug();
+        // this.debug();
     }
 
     createMulterOptions(): MulterModuleOptions {
