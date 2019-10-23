@@ -25,7 +25,7 @@ export class FileService implements MulterOptionsFactory {
     createMulterOptions(): MulterModuleOptions {
         return {
             limits: {
-                fileSize: 1e6, // 5 MB
+                fileSize: 5e6, // 5 MB
             },
             fileFilter: (req, file, next) => {
                 const ext = path.extname(file.originalname).toLowerCase();
