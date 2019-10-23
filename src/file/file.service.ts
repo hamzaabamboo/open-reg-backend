@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import {
     MulterOptionsFactory,
     MulterModuleOptions,
@@ -31,7 +31,10 @@ export class FileService implements MulterOptionsFactory {
                 const ext = path.extname(file.originalname).toLowerCase();
                 const allowed = ['.png', '.jpg', '.gif', '.jpeg'];
                 if (!allowed.includes(ext)) {
-                    next(new Error('Only images are allowed!'), false);
+                    next(
+                        new BadRequestException('Only images are allowed!'),
+                        false,
+                    );
                 } else {
                     next(null, true);
                 }
