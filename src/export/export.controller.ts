@@ -34,7 +34,6 @@ export class ExportController {
             ? new Promise((r, _) => r(null))
             : this.userService.findById(userId);
 
-        // Refer: https://stackoverflow.com/questions/35612428/call-async-await-functions-in-parallel
         const [form, user] = await Promise.all([
             this.formService.findById(formId),
             findUser,
