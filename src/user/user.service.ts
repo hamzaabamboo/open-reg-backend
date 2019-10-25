@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { USER_MODEL, UserModel, User } from './user.model';
 import { CreateUserFromChulaSsoDTO, UserInfoDto } from './user.dto';
@@ -22,8 +22,7 @@ export class UserService {
 
     async findById(id: string) {
         const user = await this.userModel.findById(id).exec();
-        if (!user)
-            throw new HttpException('Invalid user id', HttpStatus.NOT_FOUND);
+        if (!user) throw new NotFoundException('Invalid user id');
         return user.toObject() as User;
     }
 

@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { RESPONSE_MODEL, ResponseModel } from './response.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { SubmitResponseDTO } from './response.dto';
@@ -15,11 +15,9 @@ export class ResponseService {
 
     async submitResponse({ answers, form }: SubmitResponseDTO, userId: string) {
         const checkForm = await this.formService.findById(form);
-        if (!checkForm)
-            throw new HttpException('Invalid form id', HttpStatus.BAD_REQUEST);
+        if (!checkForm) throw new BadRequestException('Invalid form id');
         const responseIsValid = validateResponse(checkForm.questions, answers);
-        if (!responseIsValid)
-            throw new HttpException('Invalid response', HttpStatus.BAD_REQUEST);
+        if (!responseIsValid) throw new BadRequestException('Invalid response');
         const query = {
             user: userId,
             form,

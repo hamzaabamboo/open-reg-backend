@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { FORM_MODEL, FormModel, FormDocument } from './form.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateFormDTO, EditFormDTO } from './form.dto';
@@ -25,8 +25,7 @@ export class FormService {
 
     async findById(id: string) {
         const form = await this.formModel.findById(id).exec();
-        if (!form)
-            throw new HttpException('invalid form id', HttpStatus.NOT_FOUND);
+        if (!form) throw new NotFoundException('Invalid form id');
         return form.toObject() as FormDocument;
     }
 
