@@ -3,8 +3,7 @@ import {
     Get,
     Param,
     Res,
-    HttpException,
-    HttpStatus,
+    ForbiddenException,
 } from '@nestjs/common';
 import { ExportService } from './export.service';
 import { Response } from 'express';
@@ -28,13 +27,13 @@ export class ExportController {
         @Res() res: Response,
         @UserId() userId: string,
     ) {
-        const form = await this.formService.findById(formId);
-        const user = await this.userService.findById(userId);
+        // Refer: https://stackoverflow.com/questions/35612428/call-async-await-functions-in-parallel
+        const [form, user] = await Promise.all([
+            this.formService.findById(formId),
+            this.userService.findById(userId),
+        ]);
         if (!form.readPermissions.includes(user.info.chulaId))
-            throw new HttpException(
-                'You are not authorized',
-                HttpStatus.FORBIDDEN,
-            );
+            throw new ForbiddenException('You are not authorized');
         res.attachment(`${form.title}-${new Date()}.csv`);
         return this.exportService.exportToCsv(form).pipe(res);
     }
