@@ -8,13 +8,13 @@ import {
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { FileService } from './file.service';
-import { DebugGuard } from '../debug.guard';
+import { DevelopmentEnvironmentGuard } from '../development-environment.guard';
 
 @Controller('file')
 export class FileController {
     constructor(private readonly fileService: FileService) {}
 
-    @UseGuards(DebugGuard)
+    @UseGuards(DevelopmentEnvironmentGuard)
     @Post('upload')
     @UseInterceptors(FileFieldsInterceptor([{ name: 'image', maxCount: 10 }]))
     uploadFile(@UploadedFiles() files) {

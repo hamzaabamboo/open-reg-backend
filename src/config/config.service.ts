@@ -36,4 +36,8 @@ export class ConfigService {
     get awsS3BucketName(): string {
         return this.get('AWS_S3_BUCKET_NAME');
     }
+
+    get isDevelopment(): boolean {
+        return this.get('NODE_ENV') === 'development';
+    }
 }
