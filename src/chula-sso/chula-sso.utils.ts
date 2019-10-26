@@ -11,13 +11,15 @@ export const FACULTY = {
     medicine: 'Faculty of Medicine',
     veterinarysci: 'Faculty of Veterinary Science',
     dentistry: 'Faculty of Dentistry',
-    pharmaceuticalsci: 'Faculty of Pharmaceutical Science',
+    pharmaceuticalsci: 'Faculty of Pharmaceutical Sciences',
     law: 'Faculty of Law',
     finearts: 'Faculty of Fine and Applied Arts',
     nurse: 'Faculty of Nursing',
     psychology: 'Faculty of Psychology',
     alliedhealthsci: 'Faculty of Allied Health Sciences',
-    sportsci: 'Faculty of Sport Science',
+    sportsci: 'Faculty of Sports Science',
+    sar: 'School of Agricultural Resources',
+    bascii: 'School Of Integrated Innovation (BAScii)',
 };
 
 export class StudentInfo {
@@ -46,6 +48,8 @@ const faculties = {
     [37]: FACULTY.alliedhealthsci,
     [38]: FACULTY.psychology,
     [39]: FACULTY.sportsci,
+    [40]: FACULTY.sar,
+    [56]: FACULTY.bascii,
 };
 
 export function parseStudentId(chulaId: string): StudentInfo | null {
