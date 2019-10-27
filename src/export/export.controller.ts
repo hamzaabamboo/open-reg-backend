@@ -44,8 +44,8 @@ export class ExportController {
             !form.readPermissions.includes(user.info.chulaId)
         )
             throw new ForbiddenException('You are not authorized');
-
-        res.attachment(`${form.title}-${new Date()}.csv`);
+        res.header('Access-Control-Expose-Headers', 'Content-Disposition');
+        res.attachment(`${form.title}-${new Date().toDateString()}.csv`);
         return this.exportService.exportToCsv(form).pipe(res);
     }
 }
