@@ -10,15 +10,25 @@ export enum QuestionTypes {
     DATE = 'DATE',
     TIME = 'TIME',
     DROPDOWN = 'DROPDOWN',
+    SUBCHOICES = 'SUBCHOICES',
+}
+
+export interface Choice {
+    label: string;
+    value: string;
 }
 
 export interface Question {
     order: number;
     group: number;
     type: QuestionTypes;
+    dependsOn?: number;
     label: string;
     key: string;
-    choices?: string[];
+    choices?: Choice[];
+    subChoices?: {
+        [key: string]: Choice[];
+    };
     required: boolean;
     description?: string;
 }
@@ -50,6 +60,10 @@ export const QuestionSchema = new Schema({
         required: false,
         default: 1,
     },
+    dependsOn: {
+        type: Number,
+        required: false,
+    },
     type: {
         type: String,
         enum: QUESTION_TYPES,
@@ -64,7 +78,23 @@ export const QuestionSchema = new Schema({
         required: true,
     },
     choices: {
-        type: [String],
+        type: [
+            {
+                label: {
+                    type: String,
+                    required: true,
+                },
+                value: {
+                    type: String,
+                    required: true,
+                },
+            },
+        ],
+        required: false,
+    },
+    subChoices: {
+        type: Map,
+        of: String,
         required: false,
     },
     required: {

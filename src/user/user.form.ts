@@ -1,7 +1,15 @@
 import { Form } from '../form/form.model';
-import { QuestionTypes } from '../form/question.model';
-export const TitleChoices = ['นาย', 'นางสาว', 'นาง'];
-export const TitleEnChoices = ['Mr.', 'Ms.', 'Mrs.'];
+import { QuestionTypes, Choice } from '../form/question.model';
+export const TitleChoices: Choice[] = [
+    { label: 'นาย', value: 'นาย' },
+    { label: 'นางสาว', value: 'นางสาว' },
+    { label: 'นาง', value: 'นาง' },
+];
+export const TitleEnChoices: Choice[] = [
+    { label: 'Mr.', value: 'Mr.' },
+    { label: 'Ms.', value: 'Ms.' },
+    { label: 'Mrs.', value: 'Mrs.' },
+];
 
 export const registrationForm: Form = {
     eventId: '',
