@@ -22,6 +22,7 @@ export interface UserInfo {
 export interface User extends Document {
     // username: string;
     // password: string;
+    image: string;
     info: UserInfo;
 }
 
@@ -53,5 +54,6 @@ const UserInfoSchema = new Schema(
 );
 
 export const UserSchema = new Schema({
+    image: String,
     info: UserInfoSchema,
 });

@@ -25,6 +25,11 @@ export const registrationForm: Form = {
             description: 'Contact Information',
             order: 2,
         },
+        {
+            title: 'รูปภาพ',
+            description: 'Image',
+            order: 3,
+        },
     ],
     questions: [
         {
@@ -139,6 +144,14 @@ export const registrationForm: Form = {
             type: QuestionTypes.TEXT,
             label: 'Facebook',
             key: 'facebook',
+            required: true,
+        },
+        {
+            order: 1,
+            group: 3,
+            type: QuestionTypes.FILE,
+            label: 'Upload Image',
+            key: 'image',
             required: true,
         },
     ],

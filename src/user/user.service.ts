@@ -22,7 +22,7 @@ export class UserService {
 
     async findById(id: string) {
         const user = await this.userModel.findById(id).exec();
-        if (!user) throw new NotFoundException('Invalid user id');
+        if (!user) throw new NotFoundException('User not found.');
         return user.toObject() as User;
     }
 
@@ -32,13 +32,17 @@ export class UserService {
         return { ...registrationForm, questions };
     }
 
-    async submitRegistrationForm(id: string, userInfo: UserInfoDto) {
+    async submitRegistrationForm(
+        id: string,
+        userInfo: UserInfoDto,
+        image: any,
+    ) {
         const user = await this.findById(id);
         const oldInfo = user.info;
         const newInfo = { ...oldInfo, ...userInfo };
         return this.userModel.findByIdAndUpdate(
             id,
-            { $set: { info: newInfo } },
+            { $set: { info: newInfo, image } },
             { new: true },
         );
     }
