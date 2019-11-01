@@ -11,6 +11,7 @@ export enum QuestionTypes {
     TIME = 'TIME',
     DROPDOWN = 'DROPDOWN',
     SUBCHOICES = 'SUBCHOICES',
+    FILE = 'FILE',
 }
 
 export interface Choice {
@@ -39,15 +40,17 @@ export type QuestionModel = Model<QuestionDocument>;
 
 export const QUESTION_MODEL = 'question';
 export const QUESTION_TYPES = [
-    'RADIO',
-    'CHECKBOX',
-    'TEXT',
-    'EMAIL',
-    'PHONE',
-    'COLOR',
-    'DATE',
-    'TIME',
-    'DROPDOWN',
+    QuestionTypes.RADIO,
+    QuestionTypes.CHECKBOX,
+    QuestionTypes.TEXT,
+    QuestionTypes.EMAIL,
+    QuestionTypes.PHONE,
+    QuestionTypes.COLOR,
+    QuestionTypes.DATE,
+    QuestionTypes.TIME,
+    QuestionTypes.DROPDOWN,
+    QuestionTypes.SUBCHOICES,
+    QuestionTypes.FILE,
 ];
 
 export const QuestionSchema = new Schema({
